@@ -211,16 +211,14 @@ SELECT
    jt.title,
    jt.issn,
    j_other.some_col
- FROM
-   source_table t
+ FROM source_table t
    -- Use an explicit join when joining against other tables
    INNER JOIN JSON_TABLE(t.json_document, '$'
      COLUMNS(
        title PATH '$.journalAssociation.title',
        issn PATH '$.journalAssociation.issn',
      )
-   -- Any true condition to join on will do
-   ) jt ON 1=1
+   ) jt ON 1=1 -- Any true condition will do
    -- Additional joins
    LEFT OUTER JOIN t_other ON jt.issn = t_other.issn
 ```
