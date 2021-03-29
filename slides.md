@@ -237,19 +237,15 @@ SELECT
 {
   "uuid": "03e07f55-bfac-4ae3-8c47-05b52fe4557e",
   "externalIds": [
-    {
-      "value": "12667062",
+    { "value": "12667062",
       "idSource": "PubMed"
     },
-    {
-      "value": "0345269998",
+    { "value": "0345269998",
       "idSource": "QABO"
     }
   ],
   "journalAssociation": {
-    "title": {
-      "value": "Biochemistry"
-    }
+    "title": { "value": "Biochemistry" }
   }
 }
 ```
@@ -260,8 +256,7 @@ SELECT
   jt.title,
   jt.externalIdSource,
   jt.externalIdValue
-FROM
-  source_table t,
+FROM source_table t,
   JSON_TABLE(t.json_document, '$'
      -- title is not part of the nested structure
      COLUMNS(
