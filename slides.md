@@ -234,8 +234,7 @@ SELECT
 #### `NESTED PATH` queries
 ```json
 // JSON containing an array collection we want each of
-{
-  "uuid": "03e07f55-bfac-4ae3-8c47-05b52fe4557e",
+{ "uuid": "03e07f55-bfac-4ae3-8c47-05b52fe4557e",
   "externalIds": [
     { "value": "12667062",
       "idSource": "PubMed"
