@@ -75,42 +75,34 @@ vvv
 | PURE\_MODIFIED | DATE |
 | JSON\_DOCUMENT | CLOB |
 ---
-### Syncing
+## Syncing
 
-No need to use `JSON_DOCUMENT` columns for syncing Pure and Experts DW,
+Example using Pure web services API version 5.19:
+
+![Pure UMN Sync](pure-umn-sync.svg)
+vvv
+### Syncing Deletions
+
+No need to use `JSON_DOCUMENT` columns for syncing Pure and Experts DB,
 except for `previousUuids`:
 
-```python
-@validate_api_version
-@validate_collection_names
-def delete_documents_matching_previous_uuids_sql(
-    cursor,
-    *,
-    api_version,
-    collection_local_name=None,
-    collection_api_name=None,
-    collection_family_system_name=None
-):
-    collection_table_name = f'pure_json_{collection_local_name}_{api_version}'
-    t = Template('''
-        DELETE FROM {{ collection_table_name }}
-        WHERE uuid IN (
-          SELECT jt.previous_uuid
-          FROM {{ collection_table_name }},
-            JSON_TABLE(json_document, '$'
-              COLUMNS (
-                uuid VARCHAR2(36) PATH '$.uuid',
-                NESTED PATH '$.info.previousUuids[*]'
-                  COLUMNS (
-                    previous_uuid VARCHAR2(36) PATH '$'
-                  )
-              )
-            )
-            AS jt
-            WHERE JSON_EXISTS(json_document, '$.info.previousUuids') AND jt.previous_uuid IS NOT NULL
-        )
-    ''')
-    return t.render(collection_table_name=collection_table_name)
+```sql
+DELETE FROM pure_json_person_519
+WHERE uuid IN (
+  SELECT jt.previous_uuid
+  FROM pure_json_person_519,
+    JSON_TABLE(json_document, '$'
+      COLUMNS (
+        uuid VARCHAR2(36) PATH '$.uuid',
+        NESTED PATH '$.info.previousUuids[*]'
+          COLUMNS (
+            previous_uuid VARCHAR2(36) PATH '$'
+          )
+      )
+    ) AS jt
+    WHERE JSON_EXISTS(json_document, '$.info.previousUuids') AND jt.previous_uuid IS NOT NULL
+  )
+)
 ```
 ---
 ### Proof-of-Concept: JSON API views
