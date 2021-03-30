@@ -23,8 +23,8 @@ Slides: https://z.umn.edu/experts-oracle-json
 > University of Minnesota faculty and researchers.
 
 — https://libguides.umn.edu/experts-at-mn
-vvv
-### What Libraries WebDev does for Experts
+---
+## What Libraries WebDev does for Experts
 
 ![UMN Pure Data Flow](umn-pure-simplified-data-flow.svg)
 vvv
