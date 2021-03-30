@@ -26,11 +26,6 @@ Slides: https://z.umn.edu/experts-oracle-json
 vvv
 ### What Libraries WebDev does for Experts
 
-- Push UMN demographic data to Pure
-- Pull all data from Pure to UMN
-
-We use the Oracle JSON API for the latter.
-
 ![UMN Pure Data Flow](umn-pure-simplified-data-flow.svg)
 ---
 ## How?
