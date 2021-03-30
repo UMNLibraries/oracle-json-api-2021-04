@@ -30,6 +30,8 @@ vvv
 - Pull all data from Pure to UMN
 
 We use the Oracle JSON API for the latter.
+
+![UMN Pure Data Flow](umn-pure-simplified-data-flow.svg)
 ---
 ## How?
 ---
