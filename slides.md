@@ -53,7 +53,18 @@ We don't use it, but the SODA docs have given us important clues about things li
 ## Table Design
 
 We also found the [SODA docs on Collection Metadata](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/adsdi/soda-collection-metadata-components-reference.html#GUID-49EFF3D3-9FAB-4DA6-BDE2-2650383566A3)
-helpful in designing our JSON tables, which all have this structure:
+helpful in designing our JSON tables.
+vvv
+### Tables, Collection, and Naming
+
+SODA expects each table to contain records from a sinlgle collection,
+sharing a common schema. Because Pure has multiple collections, whose
+schemas may change across API versions, we have many tables, all
+following this naming convention:
+
+`pure_json_{collection}_{api_version}`
+vvv
+### Table Structure
 
 | Column | Type |
 | ------ | ---- |
@@ -63,8 +74,6 @@ helpful in designing our JSON tables, which all have this structure:
 | PURE\_CREATED | DATE |
 | PURE\_MODIFIED | DATE |
 | JSON\_DOCUMENT | CLOB |
-
-`pure_json_{collection_local_name}_{api_version}`
 ---
 ### Syncing
 
