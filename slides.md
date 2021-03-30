@@ -57,7 +57,7 @@ helpful in designing our JSON tables.
 vvv
 ### Tables, Collection, and Naming
 
-SODA expects each table to contain records from a sinlgle collection,
+SODA expects each table to contain records from a single collection,
 sharing a common schema. Because Pure has multiple collections, whose
 schemas may change across API versions, we have many tables, all
 following this naming convention:
