@@ -207,8 +207,8 @@ vvv
    -- implicitly to the source table
    JSON_TABLE(t.json_document, '$'
      COLUMNS(
-       title PATH '$.journalAssociation.title',
-       issn PATH '$.journalAssociation.issn',
+       title PATH '$.journalAssociation.title.value',
+       issn PATH '$.journalAssociation.issn.value',
      )
    ) jt
 ```
@@ -225,8 +225,8 @@ SELECT
    -- Use an explicit join when joining against other tables
    INNER JOIN JSON_TABLE(t.json_document, '$'
      COLUMNS(
-       title PATH '$.journalAssociation.title',
-       issn PATH '$.journalAssociation.issn',
+       title PATH '$.journalAssociation.title.value',
+       issn PATH '$.journalAssociation.issn.value',
      )
    ) jt ON 1=1 -- Any true condition will do
    -- Additional joins
@@ -238,10 +238,10 @@ SELECT
 // JSON containing an array collection we want each of
 { "uuid": "03e07f55-bfac-4ae3-8c47-05b52fe4557e",
   "externalIds": [
-    { "value": "12667062",
+    { "idValue": "12667062",
       "idSource": "PubMed"
     },
-    { "value": "0345269998",
+    { "idValue": "0345269998",
       "idSource": "QABO"
     }
   ],
