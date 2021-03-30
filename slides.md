@@ -27,6 +27,10 @@ vvv
 ### What Libraries WebDev does for Experts
 
 ![UMN Pure Data Flow](umn-pure-simplified-data-flow.svg)
+vvv
+### Data Types
+
+![UMN Pure Data Flow Types](umn-pure-simplified-data-flow-types.svg)
 ---
 ## How?
 ---
