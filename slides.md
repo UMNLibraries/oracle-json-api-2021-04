@@ -34,12 +34,12 @@ vvv
 ---
 ## How?
 ---
-### Oracle JSON API Docs
+## Oracle 19c JSON API Docs
 
-- [JSON in Oracle Database - 12c](https://docs.oracle.com/database/121/ADXDB/json.htm#ADXDB6246)
-- [JSON Developer's Guide - 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/adjsn/changes.html#GUID-D31E988A-82B0-4C21-A617-EC5FC1023821)
----
-#### SODA
+- [JSON in Oracle Database](https://docs.oracle.com/en/database/oracle/oracle-database/21/adjsn/json-in-oracle-database.html#GUID-A8A58B49-13A5-4F42-8EA0-508951DAE0BB)
+- [JSON Developer's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/adjsn/changes.html#GUID-D31E988A-82B0-4C21-A617-EC5FC1023821)
+vvv
+### SODA
 
 > [Simple Oracle Document Access (SODA)](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/)
 > is a set of NoSQL-style APIs that let you create and store collections of documents
@@ -49,7 +49,7 @@ vvv
 We don't use it, but the SODA docs have given us important clues about things like
 [indexing](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/adsdi/overview-soda-index-specifications.html#GUID-4848E6A0-58A7-44FD-8D6D-A033D0CCF9CB).
 ---
-### Table Design
+## Table Design
 
 We also found the [SODA docs on Collection Metadata](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/adsdi/soda-collection-metadata-components-reference.html#GUID-49EFF3D3-9FAB-4DA6-BDE2-2650383566A3)
 helpful in designing our JSON tables, which all have this structure:
