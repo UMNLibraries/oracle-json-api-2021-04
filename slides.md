@@ -25,7 +25,7 @@ more traditional ETL approach, for the UMN-wide Experts@Minnesota project.
 > and publication data harvested from Scopus to create public profiles for
 > University of Minnesota faculty and researchers.
 
--- https://libguides.umn.edu/experts-at-mn
+— https://libguides.umn.edu/experts-at-mn
 ---
 ### What Libraries WebDev does for Experts
 
