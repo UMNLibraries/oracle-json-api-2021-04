@@ -15,9 +15,7 @@ more traditional ETL approach, for the UMN-wide Experts@Minnesota project.
 
 Slides: https://z.umn.edu/experts-oracle-json
 ---
-## Why?
-
-### Experts@Minnesota
+## Experts@Minnesota
 
 > [Experts@Minnesota](https://experts.umn.edu) is the research information
 > management tool for the University of Minnesota. It uses University records
@@ -25,7 +23,7 @@ Slides: https://z.umn.edu/experts-oracle-json
 > University of Minnesota faculty and researchers.
 
 — https://libguides.umn.edu/experts-at-mn
----
+vvv
 ### What Libraries WebDev does for Experts
 
 - Push UMN demographic data to Pure
@@ -33,58 +31,8 @@ Slides: https://z.umn.edu/experts-oracle-json
 
 We use the Oracle JSON API for the latter.
 ---
-### Pure API
-
-- [Interactive Docs](https://experts.umn.edu/ws/api/519/api-docs/index.html#!)
-- [JSON Schema](https://experts.umn.edu/ws/api/519/swagger.json)
-vvv
-#### Challenges
-
-- Large, complex schema. Crashes the [official Swagger editor](https://editor.swagger.io/)!
-- Elsevier releases a new version every ~6 months, often with bc-breaking schema changes.
-- Syncing
-  - `/changes` endpoint returns `CHANGE/DELETE/UPDATE`, record IDs, and versions, but no dates.
-  - Collection records have created/modified dates, but no versions.
-  - No way to filter `/changes`, and most deletes appear only there, unless...
-  - ...the delete is the result of a merge, in which case the deleted record ID appears only
-    in the `previousUuids` list of the record that survived the merge.
----
-### First attempt: traditional ETL
-
-Wrote code to extract from the Pure API only the fraction of data needed for a single
-application, transform it, and load it into an [Oracle schema](https://github.com/UMNLibraries/experts_dw).
-vvv
-#### Problems
-
-- Deeply hierarchical, variable, inconsistent JSON schema. Doesn't translate well to a relational schema.
-- Complex schema and lots of code for very little data.
-- Fragile code, largely due to rapidly changing JSON schema.
----
-### Second attempt: Oracle JSON API
-
-Original requirement, still unfulfilled: make _all_ Pure data available in a local
-Oracle database, to ensure we will always have our own copy of the data, and to allow 
-for joins with OIT Data Warehouse tables, for any future
-applications or reporting people may want to create.
-vvv
-#### Oracle JSON API: solutions to the problems above?
-
-Instead of traditional ETL...
-
-- load raw JSON into Oracle, and
-- create queries or views using Oracle JSON API for only the data people want to use.
-
-Allows us to...
-
-- avoid writing lots of fragile code to populate complex schemas no one is using,
-- while still meeting the requirement that we have all the data.
----
-### YMMV
-
-Definitely not the best choice for every project.
----
 ## How?
-
+---
 ### Oracle JSON API Docs
 
 - [JSON in Oracle Database - 12c](https://docs.oracle.com/database/121/ADXDB/json.htm#ADXDB6246)
@@ -284,3 +232,55 @@ Produces multiple rows, one for each in the `externalIds[*]` array collection:
 - Oracle may not permit multiple `JSON_TABLE()` joins or `UNION`s in one view, even if they work in a plain query or non-materialized view.
 - Oracle may not permit multiple common table expressions (`WITH` clauses) when using `JSON_TABLE()`
 - work around these limits by creating multiple component views then `JOIN` or `UNION` them together into your primary view
+---
+## Why?
+---
+### Pure API
+
+- [Interactive Docs](https://experts.umn.edu/ws/api/519/api-docs/index.html#!)
+- [JSON Schema](https://experts.umn.edu/ws/api/519/swagger.json)
+vvv
+#### Challenges
+
+- Large, complex schema. Crashes the [official Swagger editor](https://editor.swagger.io/)!
+- Elsevier releases a new version every ~6 months, often with bc-breaking schema changes.
+- Syncing
+  - `/changes` endpoint returns `CHANGE/DELETE/UPDATE`, record IDs, and versions, but no dates.
+  - Collection records have created/modified dates, but no versions.
+  - No way to filter `/changes`, and most deletes appear only there, unless...
+  - ...the delete is the result of a merge, in which case the deleted record ID appears only
+    in the `previousUuids` list of the record that survived the merge.
+---
+### First attempt: traditional ETL
+
+Wrote code to extract from the Pure API only the fraction of data needed for a single
+application, transform it, and load it into an [Oracle schema](https://github.com/UMNLibraries/experts_dw).
+vvv
+#### Problems
+
+- Deeply hierarchical, variable, inconsistent JSON schema. Doesn't translate well to a relational schema.
+- Complex schema and lots of code for very little data.
+- Fragile code, largely due to rapidly changing JSON schema.
+---
+### Second attempt: Oracle JSON API
+
+Original requirement, still unfulfilled: make _all_ Pure data available in a local
+Oracle database, to ensure we will always have our own copy of the data, and to allow 
+for joins with OIT Data Warehouse tables, for any future
+applications or reporting people may want to create.
+vvv
+#### Oracle JSON API: solutions to the problems above?
+
+Instead of traditional ETL...
+
+- load raw JSON into Oracle, and
+- create queries or views using Oracle JSON API for only the data people want to use.
+
+Allows us to...
+
+- avoid writing lots of fragile code to populate complex schemas no one is using,
+- while still meeting the requirement that we have all the data.
+---
+### YMMV
+
+Definitely not the best choice for every project.
