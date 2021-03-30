@@ -9,8 +9,9 @@ David Naughton and Michael Berkowski
 UMN Libraries Web Development
 ---
 ## Overview
-How and why the UMN Libraries put raw JSON records from a vendor into Oracle, 
-and built views to query them using the Oracle JSON API, instead of using a 
+
+How and why the UMN Libraries puts raw JSON records from a vendor into Oracle, 
+and builds views to query them using the Oracle JSON API, instead of using a 
 more traditional ETL approach, for the UMN-wide Experts@Minnesota project.
 
 Slides: https://z.umn.edu/experts-oracle-json
