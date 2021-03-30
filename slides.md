@@ -38,7 +38,7 @@ We use the Oracle JSON API for the latter.
 
 - [Interactive Docs](https://experts.umn.edu/ws/api/519/api-docs/index.html#!)
 - [JSON Schema](https://experts.umn.edu/ws/api/519/swagger.json)
----
+vvv
 #### Challenges
 
 - Large, complex schema. Crashes the [official Swagger editor](https://editor.swagger.io/)!
@@ -54,7 +54,7 @@ We use the Oracle JSON API for the latter.
 
 Wrote code to extract from the Pure API only the fraction of data needed for a single
 application, transform it, and load it into an [Oracle schema](https://github.com/UMNLibraries/experts_dw).
----
+vvv
 #### Problems
 
 - Deeply hierarchical, variable, inconsistent JSON schema. Doesn't translate well to a relational schema.
@@ -67,7 +67,7 @@ Original requirement, still unfulfilled: make _all_ Pure data available in a loc
 Oracle database, to ensure we will always have our own copy of the data, and to allow 
 for joins with OIT Data Warehouse tables, for any future
 applications or reporting people may want to create.
----
+vvv
 #### Oracle JSON API: solutions to the problems above?
 
 Instead of traditional ETL...
