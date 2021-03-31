@@ -91,17 +91,16 @@ DELETE FROM pure_json_person_519
 WHERE uuid IN (
   SELECT jt.previous_uuid
   FROM pure_json_person_519,
-    JSON_TABLE(json_document, '$'
+    json_table(
+      json_document, '$'
       COLUMNS (
         uuid VARCHAR2(36) PATH '$.uuid',
         NESTED PATH '$.info.previousUuids[*]'
-          COLUMNS (
-            previous_uuid VARCHAR2(36) PATH '$'
-          )
+          COLUMNS (previous_uuid VARCHAR2(36) PATH '$')
       )
     ) AS jt
-    WHERE JSON_EXISTS(json_document, '$.info.previousUuids') AND jt.previous_uuid IS NOT NULL
-  )
+  WHERE json_exists(json_document, '$.info.previousUuids')
+  AND jt.previous_uuid IS NOT NULL
 )
 ```
 ---
