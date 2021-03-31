@@ -258,11 +258,59 @@ Produces multiple rows, one for each in the `externalIds[*]` array collection:
 ---
 ## JSON API Caveats
 
-- Can't use plain ol' SQL to write queries.
+- Can't just use plain ol' SQL to write queries.
 - Unfamiliar to most developers.
 - Proprietary to Oracle.
 ---
 ## Why?
+---
+## Experts Req^H^H^H Wishes
+
+- Traditional relational schema for _one_ user application, but also...
+- ...load _all_ Pure data!
+- "If you build it, they will come."
+---
+## Pure Data
+vvv
+### Collections/Record Types
+
+|datasets              |concepts                   |persons|
+|activities            |fingerprints               |press-media|
+|author-collaborations |semantic-groups            |prizes|
+|changes               |thesauri                   |publishers|
+|classification-schemes|impacts                    |research-outputs|
+|ddp                   |journals                   |applications|
+|downloads             |keyword-group-configuration|awards|
+|equipments            |metadata                   |projects|
+|events                |organisational-units       |external-persons|
+---
+- lots of data, but few users, using only a fraction of it
+- lots of Pure collections/record types
+- complex schema for each type
+  - which may change with each API version, released every 4 months
+- entire Pure API schema is so complex, it crashes the official Swagger editor!
+- lots of ETL caveats, too
+  - loading depends on...
+    - successful transformation
+    - successful loading of records from other collections, for ref integrity 
+  - without users, how do we know which transformation will meet their needs?
+  - if we transform before loading, the original record is lost. much more difficult
+    to find and fix transformation problems
+- diagrams showing fragility of ETL in this case
+- lots of benefits to ELT (not so much about JSON API)
+  - separation of concerns: loading doesn't depend on transformation
+    - allows us to much more easily meet the "load all Pure data" requirement
+    - since we always have the original records, much easier to find and fix transformation bugs
+  - allows for multiple views of the data, for different applications
+    - allows us to change views for some users without affecting others, and without altering the original records
+  - versioned tables allows us to develop views using new versions while users query existing versions
+  - lazy-loading development
+    - transform only what users ask for, when and if they ask for it
+    - if they come, we'll build it
+    - we don't even need to build it with JSON views. can always fall back on loading
+      into traditional relational schema. this benefit is really more about ELT than JSON API
+- JSON API lets us do ELT instead of ETL
+
 ---
 ### Pure API
 
