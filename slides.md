@@ -37,8 +37,7 @@ vvv
 ---
 ## Oracle 19c JSON API Docs
 
-- [JSON in Oracle Database](https://docs.oracle.com/en/database/oracle/oracle-database/21/adjsn/json-in-oracle-database.html#GUID-A8A58B49-13A5-4F42-8EA0-508951DAE0BB)
-- [JSON Developer's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/adjsn/changes.html#GUID-D31E988A-82B0-4C21-A617-EC5FC1023821)
+[JSON Developer's Guide](https://docs.oracle.com/en/database/oracle/oracle-database/19/adjsn/)
 vvv
 ### SODA
 
