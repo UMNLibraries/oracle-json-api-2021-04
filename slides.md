@@ -248,13 +248,19 @@ Produces multiple rows, one for each in the `externalIds[*]` array collection:
 | 03e07f55-bfac-4ae3-8c47-05b52fe4557e | Biochemistry | QABO | 0345269998 |
 ---
 ## Materialized View Caveats
-- Potentially slow refresh speed
+- Potentially slow refresh speed.
 - Oracle may not permit multiple `JSON_TABLE()` joins or `UNION`s in one view,
   even if they work in a plain query or non-materialized view.
 - Oracle may not permit multiple common table expressions (`WITH` clauses)
-  when using `JSON_TABLE()`
+  when using `JSON_TABLE()`.
 - Work around these limits by creating multiple component views, then `JOIN` or
-  `UNION` them together into your primary view
+  `UNION` them together into your primary view.
+---
+## JSON API Caveats
+
+- Can't use plain ol' SQL to write queries.
+- Unfamiliar to most developers.
+- Proprietary to Oracle.
 ---
 ## Why?
 ---
