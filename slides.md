@@ -103,19 +103,34 @@ WHERE uuid IN (
 )
 ```
 ---
-### Proof-of-Concept: JSON API views
+## ETL vs ELT
 
-We're attempting to replace the traditional, relational tables of our first
-attempt with views built using the JSON API.
-
-All but narrowly filtered `SELECT`s are too slow to do in real time. You can index inside JSON and query for one or many indexed records but querying the whole table is far too slow.
+Unlike a more traditional ETL approach, in which we would Extract and Transform
+the data before Loading it, what we've described so far is ELT. We've Extracted
+and Loaded JSON records, but we've done no Transforming.
 ---
+## JSON API views
+
+### A Transformation Proof-of-Concept
+
+We have an application already using tables created via ETL, in which we
+transform the data before loading, to prepare it for insertion into a
+highly normalized relational schema.
+
+Can we create views of the JSON records that replicate that schema?
+---
+## Problem: JSON views are slow!
+
+All but narrowly filtered `SELECT`s are too slow to do in real time. You can
+index inside JSON and query for one or many indexed records but querying the
+whole table is far too slow.
+vvv
 ### Solution: Materialized views
 
-- refreshed on a specific schedule or on demand.
-- after filling source tables JSON documents in our ETL process
----
-#### Create a materialized view
+Refreshed on a specific schedule or on demand,
+after loading JSON documents into the source tables.
+vvv
+### Create a materialized view
 ```sql
 CREATE MATERIALIZED VIEW json_viewname
   BUILD DEFERRED
@@ -124,9 +139,11 @@ AS
 SELECT...
 ```
 ---
-#### Use a JSON field in `SELECT`
+## Use a JSON field in `SELECT`
+
+The next couple of examples query JSON with this structure:
+
 ```json
-// Oracle column named "json_document"
 {
   "pureId": 44308,
   "uuid": "03e07f55-bfac-4ae3-8c47-05b52fe4557e",
@@ -141,7 +158,7 @@ SELECT...
 }
 ```
 vvv
-#### Implicit joins with `JSON_TABLE()`
+### Implicit joins with `JSON_TABLE()`
 
 ```sql
  SELECT
@@ -153,15 +170,15 @@ vvv
    -- Query into the root of the json document '$'
    -- Calling JSON_TABLE with no join conditions joins
    -- implicitly to the source table
-   JSON_TABLE(t.json_document, '$'
+   json_table(t.json_document, '$'
      COLUMNS(
        title PATH '$.journalAssociation.title.value',
        issn PATH '$.journalAssociation.issn.value',
      )
    ) jt
 ```
----
-#### Explicit joins with `JSON_TABLE()`
+vvv
+### Explicit joins with `JSON_TABLE()`
 Use explicit joins when joining against additional tables besides the JSON doc's containing table.
 ```sql
 SELECT
@@ -171,7 +188,7 @@ SELECT
    j_other.some_col
  FROM source_table t
    -- Use an explicit join when joining against other tables
-   INNER JOIN JSON_TABLE(t.json_document, '$'
+   INNER JOIN json_table(t.json_document, '$'
      COLUMNS(
        title PATH '$.journalAssociation.title.value',
        issn PATH '$.journalAssociation.issn.value',
@@ -181,9 +198,11 @@ SELECT
    LEFT OUTER JOIN t_other ON jt.issn = t_other.issn
 ```
 ---
-#### `NESTED PATH` queries
+## `NESTED PATH` queries
+
+JSON containing an array collection:
+
 ```json
-// JSON containing an array collection we want each of
 { "uuid": "03e07f55-bfac-4ae3-8c47-05b52fe4557e",
   "externalIds": [
     { "idValue": "12667062",
@@ -206,7 +225,7 @@ SELECT
   jt.externalIdSource,
   jt.externalIdValue
 FROM source_table t,
-  JSON_TABLE(t.json_document, '$'
+  json_table(t.json_document, '$'
      -- title is not part of the nested structure
      COLUMNS(
        title PATH '$.journalAssociation.title',
@@ -228,11 +247,14 @@ Produces multiple rows, one for each in the `externalIds[*]` array collection:
 | 03e07f55-bfac-4ae3-8c47-05b52fe4557e | Biochemistry | PubMed | 2667062 |
 | 03e07f55-bfac-4ae3-8c47-05b52fe4557e | Biochemistry | QABO | 0345269998 |
 ---
-### Materialized View Caveats
-- potentially slow refresh speed
-- Oracle may not permit multiple `JSON_TABLE()` joins or `UNION`s in one view, even if they work in a plain query or non-materialized view.
-- Oracle may not permit multiple common table expressions (`WITH` clauses) when using `JSON_TABLE()`
-- work around these limits by creating multiple component views then `JOIN` or `UNION` them together into your primary view
+## Materialized View Caveats
+- Potentially slow refresh speed
+- Oracle may not permit multiple `JSON_TABLE()` joins or `UNION`s in one view,
+  even if they work in a plain query or non-materialized view.
+- Oracle may not permit multiple common table expressions (`WITH` clauses)
+  when using `JSON_TABLE()`
+- Work around these limits by creating multiple component views, then `JOIN` or
+  `UNION` them together into your primary view
 ---
 ## Why?
 ---
