@@ -274,7 +274,7 @@ Produces multiple rows, one for each in the `externalIds[*]` array collection:
 vvv
 ### Collections/Record Types
 
-| Collections | | |
+| | Collections | |
 | --- | --- | --- |
 |datasets              |concepts                   |persons|
 |activities            |fingerprints               |press-media|
