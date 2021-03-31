@@ -54,7 +54,7 @@ We don't use it, but the SODA docs have given us important clues about things li
 We also found the [SODA docs on Collection Metadata](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/adsdi/soda-collection-metadata-components-reference.html#GUID-49EFF3D3-9FAB-4DA6-BDE2-2650383566A3)
 helpful in designing our JSON tables.
 vvv
-### Tables, Collection, and Naming
+### Tables, Collections, and Naming
 
 SODA expects each table to contain records from a single collection,
 sharing a common schema. Because Pure has multiple collections, whose
