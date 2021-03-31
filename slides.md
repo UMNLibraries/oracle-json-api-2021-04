@@ -77,7 +77,7 @@ vvv
 ---
 ## Syncing
 
-Example using Pure web services API version 5.19:
+Example using Pure web services API version 5.19
 
 ![Pure UMN Sync](pure-umn-sync.svg)
 vvv
