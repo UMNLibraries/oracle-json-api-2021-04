@@ -335,75 +335,59 @@ moving parts, far fewer things that can break.
 
 ![Pure UMN ELT](pure-umn-elt.svg)
 ---
-- lots of ETL caveats, too
-  - loading depends on...
-    - successful transformation
-    - successful loading of records from other collections, for ref integrity 
-  - without users, how do we know which transformation will meet their needs?
-  - if we transform before loading, the original record is lost. much more difficult
-    to find and fix transformation problems
-- diagrams showing fragility of ETL in this case
-- lots of benefits to ELT (not so much about JSON API)
-  - separation of concerns: loading doesn't depend on transformation
-    - allows us to much more easily meet the "load all Pure data" requirement
-    - since we always have the original records, much easier to find and fix transformation bugs
-  - allows for multiple views of the data, for different applications
-    - allows us to change views for some users without affecting others, and without altering the original records
-  - versioned tables allows us to develop views using new versions while users query existing versions
-  - lazy-loading development
-    - transform only what users ask for, when and if they ask for it
-    - if they come, we'll build it
-    - we don't even need to build it with JSON views. can always fall back on loading
-      into traditional relational schema. this benefit is really more about ELT than JSON API
-- JSON API lets us do ELT instead of ETL
+## The Biggest ETL Caveat
 
+### Loading depends on successful Transforming. 
+
+The more complex, deeply
+hierarchical, and cross-referenced the source records, and the more such record
+types, the more effort required to Transform those records into a normalized
+relational schema, and the more fragile that schema will be.
 ---
-### Pure API
+## ETL Dilemma
 
-- [Interactive Docs](https://experts.umn.edu/ws/api/519/api-docs/index.html#!)
-- [JSON Schema](https://experts.umn.edu/ws/api/519/swagger.json)
-vvv
-#### Challenges
+What if we don't have many users yet?
 
-- Large, complex schema. Crashes the [official Swagger editor](https://editor.swagger.io/)!
-- Elsevier releases a new version every ~6 months, often with bc-breaking schema changes.
-- Syncing
-  - `/changes` endpoint returns `CHANGE/DELETE/UPDATE`, record IDs, and versions, but no dates.
-  - Collection records have created/modified dates, but no versions.
-  - No way to filter `/changes`, and most deletes appear only there, unless...
-  - ...the delete is the result of a merge, in which case the deleted record ID appears only
-    in the `previousUuids` list of the record that survived the merge.
+- If we Transform _all_ the data, we may expend tremendous effort to build
+  something few, if any, people will ever use.
+- If we Transform only some of the data, _which_ data? Without users, how
+  do we know what they want/need?
 ---
-### First attempt: traditional ETL
+## ELT Benefits
 
-Wrote code to extract from the Pure API only the fraction of data needed for a single
-application, transform it, and load it into an [Oracle schema](https://github.com/UMNLibraries/experts_dw).
-vvv
-#### Problems
+### Loading is independent of Transforming.
 
-- Deeply hierarchical, variable, inconsistent JSON schema. Doesn't translate well to a relational schema.
-- Complex schema and lots of code for very little data.
-- Fragile code, largely due to rapidly changing JSON schema.
+- Much easier and faster to meet the "load all data" requirement.
+- Allows for multiple views of the data, for different applications.
+- Easier to version source record tables, which allows us to develop
+  views using new versions while users query already existing views.
+- Storing original records makes for easier bug-finding/fixing.
+- If JSON-API-based views don't work for some application, we can still
+  transform the original records in a more tradtional way.
 ---
-### Second attempt: Oracle JSON API
+## The Biggest ELT Benefit
 
-Original requirement, still unfulfilled: make _all_ Pure data available in a local
-Oracle database, to ensure we will always have our own copy of the data, and to allow 
-for joins with OIT Data Warehouse tables, for any future
-applications or reporting people may want to create.
-vvv
-#### Oracle JSON API: solutions to the problems above?
+### Lazy-loading Development
 
-Instead of traditional ETL...
-
-- load raw JSON into Oracle, and
-- create queries or views using Oracle JSON API for only the data people want to use.
-
-Allows us to...
-
-- avoid writing lots of fragile code to populate complex schemas no one is using,
-- while still meeting the requirement that we have all the data.
+- Transform only what users ask for, if and when they ask for it.
+- "If they come, we will build it."
 ---
-### YMMV
+## ELT > ETL
+---
+## YMMV
+---
+## Resources
 
-Definitely not the best choice for every project.
+### [Experts@Minnesota](https://experts.umn.edu)
+
+### Oracle JSON API
+
+- [JSON Developer's Guide - 19c](https://docs.oracle.com/en/database/oracle/oracle-database/19/adjsn/)
+- [Simple Oracle Document Access (SODA)](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/)
+
+### Pure 5.20 API
+
+- [Interactive Docs](https://experts.umn.edu/ws/api/520/api-docs/index.html#!)
+- [JSON Schema](https://experts.umn.edu/ws/api/520/swagger.json)
+---
+## Thank you!
