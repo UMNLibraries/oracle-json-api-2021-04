@@ -125,7 +125,7 @@ All but narrowly filtered `SELECT`s are too slow to do in real time. You can
 index inside JSON and query for one or many indexed records but querying the
 whole table is far too slow.
 vvv
-### Solution: Materialized views
+### Solution: Materialized Views
 
 Refreshed on a specific schedule or on demand,
 after loading JSON documents into the source tables.
@@ -219,11 +219,7 @@ JSON containing an array collection:
 ```
 vvv
 ```sql
-SELECT
-  t.uuid,
-  jt.title,
-  jt.externalIdSource,
-  jt.externalIdValue
+SELECT t.uuid, jt.title, jt.externalIdSource, jt.externalIdValue
 FROM source_table t,
   json_table(t.json_document, '$'
      -- title is not part of the nested structure
