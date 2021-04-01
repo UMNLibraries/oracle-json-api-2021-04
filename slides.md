@@ -272,7 +272,6 @@ Produces multiple rows, one for each in the `externalIds[*]` array collection:
 ---
 ## Pure Data
 vvv
-### Collections/Record Types
 
 | | Collections | |
 | --- | --- | --- |
