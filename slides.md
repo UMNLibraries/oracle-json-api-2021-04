@@ -297,6 +297,7 @@ vvv
 
 - One external customer, using only a tiny fraction of the data.
 - We _may_ have a second, internal customer, any day now!
+  - (Wish we had more users, actually, because the data is really cool.)
 ---
 - lots of ETL caveats, too
   - loading depends on...
