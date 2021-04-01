@@ -106,8 +106,8 @@ WHERE uuid IN (
 ## ETL vs ELT
 
 Unlike a more traditional ETL approach, in which we would Extract and Transform
-the data before Loading it, what we've described so far is ELT. We've Extracted
-and Loaded JSON records, but we've done no Transforming.
+the data before Loading it into a normalized schema, what we've described so far
+is ELT. We've Extracted and Loaded JSON records, but we've done no Transforming.
 ---
 ## JSON API views
 
@@ -298,6 +298,42 @@ vvv
 - One external customer, using only a tiny fraction of the data.
 - We _may_ have a second, internal customer, any day now!
   - (Wish we had more users, actually, because the data is really cool.)
+---
+## ETL Caveats
+---
+## Referential Integrity is Fragile
+
+Hyper-simplified picture, but illustrates the complexity of relationships
+inherent in loading only a fraction of Pure data into a normalized schema.
+
+![Pure UMN ETL Foreign Keys](pure-umn-etl-fks.svg)
+vvv
+### What if we're missing an org record?
+
+![Pure UMN ETL Foreign Keys Breakage 1](pure-umn-etl-fks-x1.svg)
+vvv
+### Can't link persons to that org...
+
+![Pure UMN ETL Foreign Keys Breakage 2](pure-umn-etl-fks-x2.svg)
+vvv
+### ...which breaks loading of those person records.
+
+![Pure UMN ETL Foreign Keys Breakage 3](pure-umn-etl-fks-x3.svg)
+vvv
+### Now we can't link research outputs to those persons!
+
+![Pure UMN ETL Foreign Keys Breakage 4](pure-umn-etl-fks-x4.svg)
+vvv
+### Everything breaks!!!
+
+![Pure UMN ETL Foreign Keys Breakage 5](pure-umn-etl-fks-x5.svg)
+vvv
+### ELT Dramatically Simplifies Loading
+
+By making Loading prior to and independent of Transforming, ELT has far fewer
+moving parts, far fewer things that can break.
+
+![Pure UMN ELT](pure-umn-elt.svg)
 ---
 - lots of ETL caveats, too
   - loading depends on...
