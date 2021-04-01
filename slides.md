@@ -358,6 +358,7 @@ What if we don't have many users yet?
 - Easier to version source record tables, which allows us to develop
   views using new versions while users query already existing views.
 - Storing original records makes for easier bug-finding/fixing.
+- Allows for database queries of entire collections of source records.
 - If JSON-API-based views don't work for some application, we can still
   transform the original records in a more tradtional way.
 ---
