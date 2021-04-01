@@ -288,6 +288,8 @@ vvv
 vvv
 ### JSON Schema
 
+Crashes the [official Swagger editor](https://editor.swagger.io/)!
+
 [Pure API 5.19 Schema](pure-api-519-schema.json)
 ---
 - lots of data, but few users, using only a fraction of it
