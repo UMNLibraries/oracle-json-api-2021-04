@@ -109,11 +109,11 @@ Unlike a more traditional ETL approach, in which we would Extract and Transform
 the data before Loading it into a normalized schema, what we've described so far
 is ELT. We've Extracted and Loaded JSON records, but we've done no Transforming.
 ---
-## JSON API views
+## JSON API Views
 
 ### A Transformation Proof-of-Concept
 
-We have an application already using tables created via ETL, in which we
+We have an application already using tables created for ETL, in which we
 transform the data before loading, to prepare it for insertion into a
 highly normalized relational schema.
 
