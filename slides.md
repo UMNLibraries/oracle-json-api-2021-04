@@ -272,6 +272,7 @@ Produces multiple rows, one for each in the `externalIds[*]` array collection:
 ---
 ## Pure Data
 vvv
+### Collections/Record Types
 
 | | Collections | |
 | --- | --- | --- |
@@ -284,6 +285,10 @@ vvv
 |downloads             |keyword-group-configuration|awards|
 |equipments            |metadata                   |projects|
 |events                |organisational-units       |external-persons|
+vvv
+### JSON Schema
+
+[Pure API 5.19 Schema](pure-api-519-schema.json)
 ---
 - lots of data, but few users, using only a fraction of it
 - lots of Pure collections/record types
