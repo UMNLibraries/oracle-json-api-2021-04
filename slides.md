@@ -288,15 +288,16 @@ vvv
 vvv
 ### JSON Schema
 
-Crashes the [official Swagger editor](https://editor.swagger.io/)!
-
 [Pure API 5.19 Schema](pure-api-519-schema.json)
+
+- Crashes the [official Swagger editor](https://editor.swagger.io/)!
+- May change with each Pure API version, released every 4 months.
 ---
-- lots of data, but few users, using only a fraction of it
-- lots of Pure collections/record types
-- complex schema for each type
-  - which may change with each API version, released every 4 months
-- entire Pure API schema is so complex, it crashes the official Swagger editor!
+## Minimal Use So Far
+
+- One external customer, using only a tiny fraction of the data.
+- We _may_ have a second, internal customer, any day now!
+---
 - lots of ETL caveats, too
   - loading depends on...
     - successful transformation
